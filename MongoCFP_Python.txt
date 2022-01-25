@@ -1,0 +1,190 @@
+mysql -user -pass -e "SELECT cols FROM table WHERE cols NOT null" > /yourfolder/output.sql
+
+def select_query():
+sql="select * from table_name"
+return sql
+cur.execute(select_query())
+
+
+
+# embded
+# department={"dept_id":1,"dept_name":"IT"}
+# department={"dept_id":1,"dept_name":"IT"}
+# data={"_id":1,"teacher_name":"xyz","department":department}
+# data={"_id":1,"stud_id":1,"teacher_id":12}
+
+
+faculty table
+# item = ConnMgo()
+# fun = {'_id': 1, 'Name':'laxmi'}
+# rec=item.update_records(fun)
+# print(rec)
+#
+#
+# # update
+# document_id = 6
+# data = {'Name': 'laxmi'}
+# ack = item.update_records(document_id, data)
+# print(ack)
+#
+# #retrive all data
+# records =item.get_all_records()
+# print(records)
+#
+# # retrive data
+# data ='pallavi'
+# rec = item.get_record(data)
+# print(rec)
+#
+# # data ='geeta'
+# # rec = item.delete_records(data)
+# # print(rec)
+#
+# # data = {'_id': 8, 'Name':'geeta', 'address': 'banglore'}
+# data = {"_id":24, "teacher_name": "pallavi", "department":{"dept_id":8, "dept_Name":"civil"}}
+# item.insert_record(data)
+# print(id)
+
+
+student teacher mapping
+
+# item = ConnMgoSTClln()
+# data = data={"_id":4,"stud_id":20,"teacher_id":11}
+# item.insert_record(data)
+# print(id)
+
+
+
+
+student table
+item = ConnST()
+data = {'_id': 20, 'Name': 'puneeta', 'address': 'banglore'}
+item.insert_record(data)
+print(id)
+
+# update
+document_id = 6
+data = {'Name': 'laxmi'}
+ack = item.update_records(document_id, data)
+print(ack)
+# retrive all data
+records =item.get_all_records()
+print(records)
+
+# retrive data
+data ='geeta'
+rec = item.get_record(data)
+print(rec)
+
+data ='geeta'
+rec = item.delete_records(data)
+print(rec)
+
+
+student data
+
+
+    item = ConnST()
+    item.connection()
+    item.insert_record( {'_id': 29, 'Name': 'param', 'address': 'banglore'})
+    item.update_records({2, 'rushi'})
+    item.get_all_records()
+    records = item.get_all_records()
+    print(records)
+
+    item.get_record()
+    item.delete_records()
+....practice method
+import pymongo
+
+
+class ConnST:
+    def connection(self):
+        """
+         created connection part
+        :return: collection
+        """
+        connection = pymongo.MongoClient("mongodb://localhost:27017")
+        database = connection["college"]
+        print(database)
+        collection = database['student']
+        return collection
+
+    def insert_record(self, data):
+        """
+        created function to insert student data
+        :param data: passing data
+        :return: document
+        """
+        collection = self.connection()
+        document = collection.insert_one(data)
+        return document
+
+    def get_record(self, Name):
+        """
+         created functionn to get records
+        :param Name: passing param Name
+        :return:
+        """
+        collection = self.connection()
+        data = collection.find_one({'Name': Name})
+        return data
+
+    def get_all_records(self):
+        """
+        created function to get all records
+        :return: data
+        """
+        collection = self.connection()
+        data = collection.find()
+        return list(data)
+
+    def update_records(self, _id, data):
+        """
+         created function to update fields with reference of id and data
+        :param _id: param id
+        :param data: data
+        :return: data
+        """
+        collection = self.connection()
+        data = collection.update_one({'_id': _id}, {"$set": data})
+        return data
+
+    def delete_records(self, Name):
+        """
+        created delete function with reference of name
+        :param Name: passing parama name
+        :return: data
+        """
+        collection = self.connection()
+        data = collection.delete_many({"Name": Name})
+        return data
+
+
+def get_insert_details():
+    conn = ConnST()
+    conn.insert_record({'_id': 200, 'Name': 'param', 'address': 'banglor'})
+
+
+def get_update_details():
+    conn = ConnST()
+    conn.insert_record([{'_id': 200}, {'_id': 200, 'Name': 'param', 'address': 'banglor'}])
+
+
+def get_delete_details():
+    conn = ConnST()
+    conn.insert_record({'_id': 200, 'Name': 'param', 'address': 'banglor'})
+
+
+if __name__ == "__main__":
+    item = ConnST()
+    while True:
+        print("""Enter your choice:
+            1:insert_record
+            2:get_all_records
+            3:item.update_records
+            4:item.delete_records""")
+
+        choice = int(input("Enter your choice:-"))
+        user_choice = {1: item.insert_record({}), 2: item.get_all_records, 3: get_update_details(), 4: item.delete_records}
+        user_choice.get(choice)()
